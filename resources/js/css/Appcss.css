@@ -1,0 +1,67 @@
+nav .brand-logo {
+    color:black;
+    margin-left: 47px;
+    font-size: 33px;
+    text-decoration: none
+}
+
+nav .brand-logo:hover {
+  background-color: darkkhaki
+}
+nav ul a {
+    color:black;
+    font-size: 20px;
+}
+
+nav ul a:hover {
+    background-color:darkkhaki;
+}
+
+nav ul {
+    margin-right: 58px;
+}
+
+.main_class {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.mainBody{
+    display: flex;
+    padding: 16px 24px 24px;
+    margin-top: 64px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.table{
+    width: 92%;
+    margin-bottom: -1rem;
+    background-color: transparent;
+    margin-left: 2%;
+}
+
+input[type=text]
+{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    border-radius: 0;
+    outline: none;
+    height: 3rem;
+    width: 94%;
+    font-size: 1rem;
+    margin: 0 0 20px 0;
+    box-shadow: none;
+    box-sizing: content-box;
+    transition: all 0.3s;
+    padding-top: 19px;
+    margin-left: 14px;
+}
+
+.SuccessMessage{
+    width: 50%;
+    margin-left: 25%;
+}
