@@ -96066,10 +96066,8 @@ function (_Component) {
   _createClass(ListComponent, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.setState({
-        showMessage: false
-      });
-      this.props.getCategories;
+      console.log("component mounted ");
+      this.props.getallAction();
     } //Show Confirm Model For Delete Category Record
 
   }, {
@@ -96262,13 +96260,16 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  console.log("created");
+  console.log("mapDispatchToProps");
   return {
     deleteCategory: function deleteCategory(category) {
       return dispatch(Object(_store_actions_categoryActions__WEBPACK_IMPORTED_MODULE_3__["deleteCategory"])(category));
     },
     updateCategory: function updateCategory(updateCatId, updateCatName) {
       return dispatch(Object(_store_actions_categoryActions__WEBPACK_IMPORTED_MODULE_3__["updateCategory"])(updateCatId, updateCatName));
+    },
+    getallAction: function getallAction() {
+      return dispatch(Object(_store_actions_categoryActions__WEBPACK_IMPORTED_MODULE_3__["getallAction"])());
     }
   };
 };
@@ -96413,44 +96414,58 @@ var signUpUser = function signUpUser(registerUser) {
 /*!*******************************************************!*\
   !*** ./resources/js/store/actions/categoryActions.js ***!
   \*******************************************************/
-/*! exports provided: getCategories, createCategory, deleteCategory, updateCategory, getCategoryById */
+/*! exports provided: FETCH_CATEGORY_SUCCESS, FETCH_CATEGORIES_FAILURE, FETCH_CAT_PAGINATION, CREATE_CAT_SUCCESS, getCategories, getallAction, createCategory, deleteCategory, updateCategory, getCategoryById, fetchCategorySuccess, fetchCategoryPagination, fetchCategoriesFailure, createCategorySuccess */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CATEGORY_SUCCESS", function() { return FETCH_CATEGORY_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CATEGORIES_FAILURE", function() { return FETCH_CATEGORIES_FAILURE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_CAT_PAGINATION", function() { return FETCH_CAT_PAGINATION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_CAT_SUCCESS", function() { return CREATE_CAT_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return getCategories; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getallAction", function() { return getallAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCategory", function() { return createCategory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteCategory", function() { return deleteCategory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateCategory", function() { return updateCategory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategoryById", function() { return getCategoryById; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCategorySuccess", function() { return fetchCategorySuccess; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCategoryPagination", function() { return fetchCategoryPagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCategoriesFailure", function() { return fetchCategoriesFailure; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCategorySuccess", function() { return createCategorySuccess; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var FETCH_CATEGORY_SUCCESS = 'FETCH_CATEGORIES_SUCCESS';
+var FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE';
+var FETCH_CAT_PAGINATION = 'FETCH_CAT_PAGINATION_DATA';
+var CREATE_CAT_SUCCESS = 'CREATE_CAT_SUCCESS';
 var getCategories = function getCategories() {
   return function (dispatch) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost/larael_pro/laravel_vue/public/categories").then(function (res) {
-      console.log({
-        res: res
-      });
-      dispatch({
-        type: 'FETCH_SUCCESS',
-        res: res
-      });
+      console.log('%c Get All Category! ', ' color: green');
+      dispatch(fetchCategorySuccess(res));
     }).catch(function (err) {
-      dispatch({
-        type: 'ERROR_FETCH',
-        err: err
-      });
+      console.log('%c Error Occured! ', ' color: red');
+      dispatch(fetchCategoriesFailure(err));
+    });
+  };
+};
+var getallAction = function getallAction() {
+  return function (dispatch) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost/larael_pro/laravel_vue/public/categories").then(function (res) {
+      console.log('%c Get All Category! ', ' color: green');
+      dispatch(fetchCategorySuccess(res));
+    }).catch(function (err) {
+      console.log('%c Error Occured! ', ' color: red');
+      dispatch(fetchCategoriesFailure(err));
     });
   };
 };
 var createCategory = function createCategory(category) {
   return function (dispatch) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://localhost/larael_pro/laravel_vue/public/create/category", category).then(function (res) {
-      dispatch({
-        type: 'CREATE_SUCCESS',
-        res: res
-      });
+      dispatch(createCategorySuccess(res));
     }).catch(function (err) {
       dispatch({
         type: 'ERROR_CREATE',
@@ -96504,6 +96519,38 @@ var getCategoryById = function getCategoryById(id) {
     });
   };
 };
+var fetchCategorySuccess = function fetchCategorySuccess(categories) {
+  return {
+    type: FETCH_CATEGORY_SUCCESS,
+    payload: {
+      categories: categories
+    }
+  };
+};
+var fetchCategoryPagination = function fetchCategoryPagination(peginationCat) {
+  return {
+    type: FETCH_CAT_PAGINATION,
+    payload: {
+      peginationCat: peginationCat
+    }
+  };
+};
+var fetchCategoriesFailure = function fetchCategoriesFailure(error) {
+  return {
+    type: FETCH_CATEGORIES_FAILURE,
+    payload: {
+      error: error
+    }
+  };
+};
+var createCategorySuccess = function createCategorySuccess(catCreated) {
+  return {
+    type: CREATE_CAT_SUCCESS,
+    payload: {
+      catCreated: catCreated
+    }
+  };
+};
 
 /***/ }),
 
@@ -96518,21 +96565,14 @@ var getCategoryById = function getCategoryById(id) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 var initState = {
-  categories: [{
-    id: "1",
-    name: "FIrst Title",
-    active: "content of first title"
-  }]
+  categories: [],
+  catPagination: []
 };
 
 var categoryReducers = function categoryReducers() {
@@ -96540,21 +96580,27 @@ var categoryReducers = function categoryReducers() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case "FETCH_SUCCESS":
-      [].concat(_toConsumableArray(categories), [action.res.data]);
-      return state;
-
-    case "FETCH_ERROR":
-      console.log("error", action.err);
-      return state;
-
-    case "CREATE_SUCCESS":
-      [].concat(_toConsumableArray(categories), [action.res.data]);
-      console.log({
-        action: action
+    case "FETCH_CATEGORIES_SUCCESS":
+      console.log('catPagination');
+      return _objectSpread({}, state, {
+        categories: action.payload.categories.data.data
       });
-      console.log("category Create successfully");
+
+    case "FETCH_CATEGORIES_FAILURE":
+      console.log('fetch error');
       return state;
+
+    case "FETCH_CAT_PAGINATION_DATA":
+      console.log('FETCH_CAT_PAGINATION_DATA_SUCCESS');
+      console.log(state.catPagination);
+      return state;
+
+    case "CREATE_CAT_SUCCESS":
+      console.log(action.payload.categories.data.data);
+      console.log("category Create successfully");
+      return _objectSpread({}, state, {
+        categories: action.payload.categories.data.data
+      });
 
     case "ERROR_CREATE":
       console.log("error occured");
