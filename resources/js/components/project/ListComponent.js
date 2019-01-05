@@ -5,7 +5,8 @@ import {
     deleteCategory,
     updateCategory,
     getCategoryById,
-    getCategories
+    getCategories,
+    getallAction
 } from "../../store/actions/categoryActions";
 import Fab from "@material-ui/core/Fab";
 import Icon from "@material-ui/core/Icon";
@@ -57,10 +58,10 @@ class ListComponent extends Component {
 
     //Fetch List of Category Records
     componentDidMount() {
-        this.setState({
-            showMessage: false
-        });
-        this.props.getCategories
+
+        console.log("component mounted ")
+        this.props.getallAction();
+
 
     }
 
@@ -306,11 +307,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    console.log("created");
+    console.log("mapDispatchToProps");
     return {
         deleteCategory: category => dispatch(deleteCategory(category)),
         updateCategory: (updateCatId, updateCatName) =>
-            dispatch(updateCategory(updateCatId, updateCatName))
+            dispatch(updateCategory(updateCatId, updateCatName)),
+        getallAction:() => dispatch(getallAction()),
     };
 };
 

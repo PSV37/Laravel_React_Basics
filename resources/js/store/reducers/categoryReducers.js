@@ -1,26 +1,31 @@
 import React from "react";
 
 const initState = {
-    categories: [
-        { id: "1", name: "FIrst Title", active: "content of first title" }
-    ]
+    categories: [ ],
+
+    catPagination:[]
 };
 
 const categoryReducers = (state = initState, action) => {
     switch (action.type) {
-        case "FETCH_SUCCESS":
-            [...categories, action.res.data]
+        case "FETCH_CATEGORIES_SUCCESS":
+            console.log('catPagination')
+
+            return  {...state, categories:action.payload.categories.data.data}
+
+        case "FETCH_CATEGORIES_FAILURE":
+            console.log('fetch error');
             return state;
 
-        case "FETCH_ERROR":
-            console.log("error", action.err);
+        case "FETCH_CAT_PAGINATION_DATA" :
+            console.log('FETCH_CAT_PAGINATION_DATA_SUCCESS')
+            console.log(state.catPagination)
             return state;
 
-        case "CREATE_SUCCESS":
-            [...categories, action.res.data]
-            console.log({action})
+        case "CREATE_CAT_SUCCESS":
+            console.log(action.payload.categories.data.data)
             console.log("category Create successfully");
-            return state;
+            return  {...state, categories:action.payload.categories.data.data}
 
         case "ERROR_CREATE":
             console.log("error occured");
